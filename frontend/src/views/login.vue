@@ -8,7 +8,7 @@
           class="rounded-lg shadow-lg"
           src="@/assets/images/flower-login.webp"
           alt=""
-          width="300px"
+          width="280px"
           height="339px"
         />
       </div>

@@ -2,7 +2,6 @@ package initialize
 
 import (
 	"fmt"
-	"io/fs"
 	"mime"
 	"net/http"
 	"strings"
@@ -36,11 +35,11 @@ func InitServer() {
 	global.Router.Use(internalMid.Intercept(global.Router))        // 处理问题
 	global.Router.Use(middleware.GinRecovery(global.Logger, true)) // 服务恐慌处理
 
-	staticFs, err := fs.Sub(global.PageStatic, "admin")
-	if err != nil {
-		panic(err)
-	}
-	global.Router.StaticFS("/admin", http.FS(staticFs))
+	// staticFs, err := fs.Sub(global.PageStatic, "admin")
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// global.Router.StaticFS("/admin", http.FS(staticFs))
 
 	// 设置一个静态文件服务器
 	global.Router.Static("/www", "./runtime/static")
