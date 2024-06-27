@@ -3,8 +3,12 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router';
 
 
-const collapse = '200px'
-const expand = '60px'
+const collapse = '155px'
+const expand = '48px'
+
+const expandIcon = '44px'
+const collapseIcon = '139px'
+
 const selfDash = {
     index: '/dashboard',
     title: '首页',
@@ -16,8 +20,8 @@ export const useMenuStore = defineStore(
         const router = useRouter()
 
         const isCollapse = ref(false)
-        const menuWidth = ref('200px')
-        const collapseLeft = ref(collapse)
+        const menuWidth = ref(collapse)
+        const collapseLeft = ref(collapseIcon)
         const collapseRotate = ref('none')
 
         const dashboard = ref({ ...selfDash })
@@ -26,12 +30,12 @@ export const useMenuStore = defineStore(
             isCollapse.value = !isCollapse.value;
 
             if (isCollapse.value) {
-                menuWidth.value = '64px'
-                collapseLeft.value = expand
+                menuWidth.value = expand
+                collapseLeft.value = expandIcon
                 collapseRotate.value = 'rotate(180deg)'
             } else {
-                menuWidth.value = '200px'
-                collapseLeft.value = collapse
+                menuWidth.value = collapse
+                collapseLeft.value = collapseIcon
                 collapseRotate.value = 'none'
             }
         }

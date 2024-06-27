@@ -18,8 +18,7 @@
     "pinia-plugin-persistedstate": "^3.2.1",
     "vue": "^3.4.19",
     "vue-router": "^4.3.0",
-    "vue3-menus": "^1.1.2",
-    "vxe-table": "^4.5.20"
+    "vue3-menus": "^1.1.2"
   },
   "devDependencies": {
     "@element-plus/icons-vue": "^2.3.1",

@@ -4,9 +4,12 @@
       <el-header>
         <Header />
       </el-header>
-      <div class="flex flex-row h-full">
+      <div class="flex flex-row w-full h-full">
         <Menu class="shadow-xl z-50" :style="{ width: menuWidth }" />
-        <div class="grow flex flex-col w-full bg-[#F0F2F5]">
+        <div
+          class="flex flex-col bg-[#F0F2F5]"
+          :style="{ width: `calc(100% - ${menuWidth})` }"
+        >
           <NavBar />
           <div class="m-[10px] grow">
             <RouterView />

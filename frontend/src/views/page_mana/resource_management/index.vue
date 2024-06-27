@@ -1,5 +1,5 @@
 <template>
-  <BsHeader title="资源管理" description="资源管理">
+  <BsHeader label="资源管理" description="资源管理">
     <template #actions>
       <el-button type="primary" @click="onAddClick">添加</el-button>
     </template>
@@ -21,34 +21,56 @@
       </el-form>
 
       <div class="table-box">
-        <vxe-table
-          round
+        <el-table
           border
           :data="tableData"
-          size="mini"
+          highlight-current-row
+          size="small"
           height="100%"
           stripe
-          empty-text="没有数据"
-          auto-resize
-          :row-config="{ isCurrent: true, isHover: true }"
         >
-          <vxe-column field="id" title="编码" width="150" show-overflow />
-          <vxe-column field="title" title="标题" width="150" show-overflow />
-          <vxe-column
-            field="fileName"
-            title="文件名称"
-            width="200"
-            show-overflow
+          <el-table-column
+            prop="id"
+            label="编码"
+            width="150"
+            show-overflow-tooltip
           />
-          <vxe-column field="ext" title="文件类型" width="200" show-overflow />
-          <vxe-column
-            field="createdAt"
-            title="创建时间"
-            width="200"
-            show-overflow
+          <el-table-column
+            prop="title"
+            label="标题"
+            width="150"
+            show-overflow-tooltip
           />
-          <vxe-column field="mark" title="备注" min-width="300" show-overflow />
-          <vxe-column title="操作" width="190" align="center" fixed="right">
+          <el-table-column
+            prop="fileName"
+            label="文件名称"
+            width="200"
+            show-overflow-tooltip
+          />
+          <el-table-column
+            prop="ext"
+            label="文件类型"
+            width="200"
+            show-overflow-tooltip
+          />
+          <el-table-column
+            prop="createdAt"
+            label="创建时间"
+            width="200"
+            show-overflow-tooltip
+          />
+          <el-table-column
+            prop="mark"
+            label="备注"
+            min-width="300"
+            show-overflow-tooltip
+          />
+          <el-table-column
+            label="操作"
+            width="190"
+            align="center"
+            fixed="right"
+          >
             <template v-slot="{ row }">
               <el-button
                 type="primary"
@@ -65,8 +87,8 @@
                 >删除</el-button
               >
             </template>
-          </vxe-column>
-        </vxe-table>
+          </el-table-column>
+        </el-table>
       </div>
       <div style="margin-top: 10px">
         <el-pagination
@@ -85,7 +107,7 @@
   </BsMain>
 
   <BsDialog
-    :title="title"
+    :label="title"
     :width="600"
     :visible="visible"
     @close="onClose"

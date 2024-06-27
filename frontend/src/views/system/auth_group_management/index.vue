@@ -1,5 +1,5 @@
 <template>
-  <BsHeader title="用户组管理" description="用户组管理">
+  <BsHeader label="用户组管理" description="用户组管理">
     <template #actions>
       <el-button type="primary" @click="onAddClick">添加</el-button>
     </template>
@@ -21,23 +21,29 @@
       </el-form>
 
       <div class="table-box">
-        <vxe-table
-          round
+        <el-table
           border
           :data="tableData"
-          size="mini"
-          height="100%"
+          size="small"
+          highlight-current-row
           stripe
-          empty-text="没有数据"
-          auto-resize
-          :row-config="{ isCurrent: true, isHover: true }"
         >
-          <vxe-column field="id" title="编码" show-overflow width="150" />
-          <vxe-column field="name" title="姓名" width="150" />
-          <vxe-column field="mark" title="备注" show-overflow min-width="300" />
-          <vxe-column
-            field="state"
-            title="状态"
+          <el-table-column
+            prop="id"
+            label="编码"
+            show-overflow-tooltip
+            width="150"
+          />
+          <el-table-column prop="name" label="姓名" width="150" />
+          <el-table-column
+            prop="mark"
+            label="备注"
+            show-overflow-tooltip
+            min-width="300"
+          />
+          <el-table-column
+            prop="state"
+            label="状态"
             width="70"
             align="center"
             fixed="right"
@@ -50,8 +56,13 @@
                 {{ row.state === 1 ? "启用" : "停用" }}
               </el-tag>
             </template>
-          </vxe-column>
-          <vxe-column title="操作" width="190" align="center" fixed="right">
+          </el-table-column>
+          <el-table-column
+            label="操作"
+            width="190"
+            align="center"
+            fixed="right"
+          >
             <template v-slot="{ row }">
               <el-button
                 type="primary"
@@ -75,8 +86,8 @@
                 >删除</el-button
               >
             </template>
-          </vxe-column>
-        </vxe-table>
+          </el-table-column>
+        </el-table>
       </div>
       <div style="margin-top: 10px">
         <el-pagination
@@ -95,7 +106,7 @@
   </BsMain>
 
   <BsDialog
-    :title="title"
+    :label="title"
     :width="500"
     :visible="visible"
     @close="onClose"

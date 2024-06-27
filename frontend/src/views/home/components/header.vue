@@ -1,15 +1,15 @@
 <template>
   <div class="header-box">
-    <div class="grape-title">
+    <div class="flex text-white text font-bold items-center">
       <img
         src="@/assets/images/icon.webp"
         style="width: 24px; height: 24px"
-      /><span style="margin-left: 10px">一个小工具</span>
+      /><span class="ml-4">一个小工具</span>
     </div>
-    <div class="header-actions">
+    <div class="flex mr-4 items-center">
       <el-avatar :size="25">{{ info.name ? info.name[0] : "A" }}</el-avatar>
-      <el-dropdown class="user-name" @command="dropdownClick">
-        <span class="el-dropdown-link" style="margin-left: 10px">
+      <el-dropdown class=" user-name" @command="dropdownClick">
+        <span class="ml-2 el-dropdown-link">
           {{ info.name }}
           <el-icon>
             <ArrowDown />

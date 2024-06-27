@@ -111,6 +111,8 @@ const menuStore = useMenuStore();
 const { isCollapse, collapseLeft, collapseRotate, navBar, activeMenu } =
   storeToRefs(menuStore);
 
+console.log("collapseLeft", collapseLeft.value);
+
 const defaultOpeneds = ref([]);
 
 const collapseClick = () => {

@@ -15,8 +15,8 @@
           </div>
         </template>
         <div style="display: inline-flex">
-          <el-statistic title="总数" :value="2" class="tic-item" />
-          <el-statistic title="启用数" :value="2" class="tic-item" />
+          <el-statistic label="总数" :value="2" class="tic-item" />
+          <el-statistic label="启用数" :value="2" class="tic-item" />
         </div>
       </el-card>
     </el-col>
@@ -35,8 +35,8 @@
           </div>
         </template>
         <div style="display: inline-flex">
-          <el-statistic title="总数" :value="2" class="tic-item" />
-          <el-statistic title="启用数" :value="2" class="tic-item" />
+          <el-statistic label="总数" :value="2" class="tic-item" />
+          <el-statistic label="启用数" :value="2" class="tic-item" />
         </div>
       </el-card>
     </el-col>
@@ -55,8 +55,8 @@
           </div>
         </template>
         <div style="display: inline-flex">
-          <el-statistic title="总数" :value="2" class="tic-item" />
-          <el-statistic title="启用数" :value="2" class="tic-item" />
+          <el-statistic label="总数" :value="2" class="tic-item" />
+          <el-statistic label="启用数" :value="2" class="tic-item" />
         </div>
       </el-card>
     </el-col>
@@ -75,8 +75,8 @@
           </div>
         </template>
         <div style="display: inline-flex">
-          <el-statistic title="总数" :value="2" class="tic-item" />
-          <el-statistic title="启用数" :value="2" class="tic-item" />
+          <el-statistic label="总数" :value="2" class="tic-item" />
+          <el-statistic label="启用数" :value="2" class="tic-item" />
         </div>
       </el-card>
     </el-col>
@@ -95,8 +95,8 @@
           </div>
         </template>
         <div style="display: inline-flex">
-          <el-statistic title="总数" :value="2" class="tic-item" />
-          <el-statistic title="启用数" :value="2" class="tic-item" />
+          <el-statistic label="总数" :value="2" class="tic-item" />
+          <el-statistic label="启用数" :value="2" class="tic-item" />
         </div>
       </el-card>
     </el-col>

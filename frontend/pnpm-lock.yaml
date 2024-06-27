@@ -35,9 +35,6 @@ dependencies:
   vue3-menus:
     specifier: ^1.1.2
     version: registry.npmmirror.com/vue3-menus@1.1.2
-  vxe-table:
-    specifier: ^4.5.20
-    version: registry.npmmirror.com/vxe-table@4.5.20(vue@3.4.19)(xe-utils@3.5.27)
 
 devDependencies:
   '@element-plus/icons-vue':
@@ -1687,12 +1684,6 @@ packages:
       domhandler: registry.npmmirror.com/domhandler@4.3.1
       entities: registry.npmmirror.com/entities@2.2.0
     dev: true
-
-  registry.npmmirror.com/dom-zindex@1.0.4:
-    resolution: {integrity: sha512-PNk7u71TJ1C9Lwjjp5nNuQcVWuECFMmr9kZAwi2UbgWUM7jXdTCe4O4x5bhLUa07jpcZUVA5Du3ho7/FXzS9Ng==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/dom-zindex/-/dom-zindex-1.0.4.tgz}
-    name: dom-zindex
-    version: 1.0.4
-    dev: false
 
   registry.npmmirror.com/domelementtype@1.3.1:
     resolution: {integrity: sha512-BSKB+TSpMpFI/HOxCNr1O8aMOTZ8hT3pM3GQ0w/mWRmkhEDSFJkkyzz4XQsBV44BChwGkrDfMyjVD0eA2aFV3w==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/domelementtype/-/domelementtype-1.3.1.tgz}
@@ -4742,20 +4733,6 @@ packages:
       '@vue/server-renderer': registry.npmmirror.com/@vue/server-renderer@3.4.19(vue@3.4.19)
       '@vue/shared': registry.npmmirror.com/@vue/shared@3.4.19
 
-  registry.npmmirror.com/vxe-table@4.5.20(vue@3.4.19)(xe-utils@3.5.27):
-    resolution: {integrity: sha512-UC+z1ED3QE6Be/UN0390hSXMAseXg+com3fkX9q3tjfsCGFx7CjN9tLstuNtecn+ElkPGHqzRGtA3N5FTSv5Vw==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vxe-table/-/vxe-table-4.5.20.tgz}
-    id: registry.npmmirror.com/vxe-table/4.5.20
-    name: vxe-table
-    version: 4.5.20
-    peerDependencies:
-      vue: ^3.2.28
-      xe-utils: ^3.5.0
-    dependencies:
-      dom-zindex: registry.npmmirror.com/dom-zindex@1.0.4
-      vue: registry.npmmirror.com/vue@3.4.19
-      xe-utils: registry.npmmirror.com/xe-utils@3.5.27
-    dev: false
-
   registry.npmmirror.com/webpack-sources@3.2.3:
     resolution: {integrity: sha512-/DyMEOrDgLKKIG0fmvtz+4dUX/3Ghozwgm6iPp8KRhvn+eQf9+Q7GWxVNMk3+uCPWfdXYC4ExGBckIXdFEfH1w==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/webpack-sources/-/webpack-sources-3.2.3.tgz}
     name: webpack-sources
@@ -4825,12 +4802,6 @@ packages:
       string-width: registry.npmmirror.com/string-width@5.1.2
       strip-ansi: registry.npmmirror.com/strip-ansi@7.1.0
     dev: true
-
-  registry.npmmirror.com/xe-utils@3.5.27:
-    resolution: {integrity: sha512-qn303MEL90Fn+1BGAfwmz+ot/3klNc9OgX3HBO5TPKHLLl+/zhfH+zrCOi7QIhvzaRiv63SSUhQE4Z1lTwmAuw==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/xe-utils/-/xe-utils-3.5.27.tgz}
-    name: xe-utils
-    version: 3.5.27
-    dev: false
 
   registry.npmmirror.com/yaml@2.4.5:
     resolution: {integrity: sha512-aBx2bnqDzVOyNKfsysjA2ms5ZlnjSAW2eG3/L5G/CSujfjLJTJsEw1bGw8kCf04KodQWk1pxlGnZ56CRxiawmg==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/yaml/-/yaml-2.4.5.tgz}

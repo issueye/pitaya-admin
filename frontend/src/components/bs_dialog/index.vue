@@ -2,7 +2,7 @@
   <el-dialog
     draggable
     v-model="props.visible"
-    :title="props.title"
+    :label="props.title"
     :width="props.width"
     :before-close="onClose"
     :close-on-click-modal="false"

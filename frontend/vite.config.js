@@ -3,7 +3,6 @@ import vue from '@vitejs/plugin-vue'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import path from 'path'
 import Components from 'unplugin-vue-components/vite'
-import { VxeResolver } from '@vxecli/import-unplugin-vue-components'
 import Icons from 'unplugin-icons/vite'
 
 // https://vitejs.dev/config/
@@ -25,11 +24,7 @@ export default defineConfig({
       symbolId: 'icon-[name]',
     }),
 
-    Components({
-      resolvers: [
-        VxeResolver({ libraryName: 'vxe-table' }),
-      ],
-    }),
+    Components({}),
   ],
 
   server: {

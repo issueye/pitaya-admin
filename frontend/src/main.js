@@ -3,7 +3,6 @@ import 'normalize.css/normalize.css'
 
 import ElementPlus from 'element-plus'
 
-import 'vxe-table/lib/style.css'
 import '@/assets/css/tailwind.css'
 import 'element-plus/dist/index.css'
 import './assets/css/style.css'
