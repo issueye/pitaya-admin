@@ -38,7 +38,8 @@ func InitRouter(r *gin.Engine) {
 	)
 
 	// 查询 http 报文
-	version.GET("query/httpMessages", v1.QueryHttpMessages)
+	// version.GET("query/httpMessages", v1.QueryHttpMessages)
+	version.POST("depository", v1.DepositoryPost)
 }
 
 // registerRouter 注册路由

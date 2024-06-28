@@ -19,7 +19,7 @@ func (owner *Plugin) SetBase(base service.BaseService) {
 }
 
 func NewPlugin(args ...service.ServiceContext) *Plugin {
-	return service.NewServiceSelf(&Plugin{}, args...)
+	return service.NewService(&Plugin{}, args...)
 }
 
 // Create

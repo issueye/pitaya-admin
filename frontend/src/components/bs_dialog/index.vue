@@ -2,16 +2,16 @@
   <el-dialog
     draggable
     v-model="props.visible"
-    :label="props.title"
+    :title="props.title"
     :width="props.width"
     :before-close="onClose"
     :close-on-click-modal="false"
     @open="onOpen"
   >
-    <div class="dialog-body-box">
+    <div class="p-[20px]">
       <slot name="body"> </slot>
     </div>
-    <div class="dialog-footer-box" v-if="props.showFooter">
+    <div class="flex p-[20px] justify-end" v-if="props.showFooter">
       <slot name="footer">
         <el-button type="primary" @click="submitForm">确定</el-button>
         <el-button @click="onClose">关闭</el-button>
@@ -51,15 +51,3 @@ const submitForm = () => {
   emits("save");
 };
 </script>
-
-<style lang="scss" scoped>
-.dialog-footer-box {
-  padding: 20px;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.dialog-body-box {
-  padding: 20px;
-}
-</style>

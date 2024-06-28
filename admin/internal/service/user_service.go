@@ -27,7 +27,7 @@ func (owner *User) SetBase(base service.BaseService) {
 }
 
 func NewUser(args ...service.ServiceContext) *User {
-	return service.NewServiceSelf(&User{}, args...)
+	return service.NewService(&User{}, args...)
 }
 
 // FindUser

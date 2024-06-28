@@ -1,5 +1,5 @@
 <template>
-  <BsHeader label="用户组管理" description="用户组管理">
+  <BsHeader title="用户组管理" description="用户组管理">
     <template #actions>
       <el-button type="primary" @click="onAddClick">添加</el-button>
     </template>
@@ -106,7 +106,7 @@
   </BsMain>
 
   <BsDialog
-    :label="title"
+    :title="title"
     :width="500"
     :visible="visible"
     @close="onClose"

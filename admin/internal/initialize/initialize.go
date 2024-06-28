@@ -30,8 +30,7 @@ func Initialize() {
 
 	// 关闭服务
 	global.HttpServer.Shutdown(ctx)
-	// 关闭数据库
-	close(global.IndexDB)
+
 	// 关闭日志
 	global.Logger.Sync()
 	// 关闭监听

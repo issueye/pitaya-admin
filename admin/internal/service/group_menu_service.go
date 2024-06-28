@@ -22,7 +22,7 @@ func (owner *GroupMenu) SetBase(base service.BaseService) {
 }
 
 func NewGroupMenu(args ...service.ServiceContext) *GroupMenu {
-	return service.NewServiceSelf(&GroupMenu{}, args...)
+	return service.NewService(&GroupMenu{}, args...)
 }
 
 // Create

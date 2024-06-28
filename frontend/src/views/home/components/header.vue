@@ -2,9 +2,9 @@
   <div class="header-box">
     <div class="flex text-white text font-bold items-center">
       <img
-        src="@/assets/images/icon.webp"
-        style="width: 24px; height: 24px"
-      /><span class="ml-4">一个小工具</span>
+        src="@/assets/images/icon.png"
+        style="width: 48px; height: 24px"
+      /><span class="ml-4">pitaya</span>
     </div>
     <div class="flex mr-4 items-center">
       <el-avatar :size="25">{{ info.name ? info.name[0] : "A" }}</el-avatar>

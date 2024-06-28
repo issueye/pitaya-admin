@@ -40,7 +40,7 @@ func NewBaseService(args ...ServiceContext) *BaseService {
 	return base
 }
 
-type BaseIntf[T any] interface {
+type BaseIntf interface {
 	SetContext(ctx ServiceContext)
 	GetContext() ServiceContext
 	OpenTx()
@@ -48,11 +48,10 @@ type BaseIntf[T any] interface {
 	Commit() *gorm.DB
 	GetDB() *gorm.DB
 	DataFilter(tableName string, req, list interface{}, f ListFilter) error
-	Self() *T
 	SetBase(BaseService)
 }
 
-func NewService[T any](obj BaseIntf[T], args ...ServiceContext) BaseIntf[T] {
+func NewService[T BaseIntf](obj T, args ...ServiceContext) T {
 	if len(args) > 0 {
 		obj.SetContext(args[0])
 	} else {
@@ -60,10 +59,6 @@ func NewService[T any](obj BaseIntf[T], args ...ServiceContext) BaseIntf[T] {
 	}
 
 	return obj
-}
-
-func NewServiceSelf[T any](obj BaseIntf[T], args ...ServiceContext) *T {
-	return NewService(obj).Self()
 }
 
 type ListFilter func(db *gorm.DB) (*gorm.DB, error)

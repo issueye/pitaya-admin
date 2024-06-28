@@ -5,7 +5,7 @@ import (
 
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
-	"github.com/issueye/pitaya_admin/internal/common/model"
+	lichee "github.com/issueye/lichee-js"
 	"go.uber.org/zap"
 	"gopkg.in/antage/eventsource.v1"
 	"gorm.io/gorm"
@@ -19,5 +19,5 @@ var (
 	HttpServer *http.Server
 	Auth       *jwt.GinJWTMiddleware
 	SSE        eventsource.EventSource
-	IndexDB    = make(chan *model.TrafficStatistics, 50)
+	Lichee     *lichee.Core
 )

@@ -22,7 +22,7 @@ func (owner *Menu) SetBase(base service.BaseService) {
 }
 
 func NewMenu(args ...service.ServiceContext) *Menu {
-	return service.NewServiceSelf(&Menu{}, args...)
+	return service.NewService(&Menu{}, args...)
 }
 
 // CreateAdminNonExistent

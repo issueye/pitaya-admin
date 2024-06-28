@@ -22,7 +22,7 @@ func (owner *Resource) SetBase(base service.BaseService) {
 }
 
 func NewResource(args ...service.ServiceContext) *Resource {
-	return service.NewServiceSelf(&Resource{}, args...)
+	return service.NewService(&Resource{}, args...)
 }
 
 // Create

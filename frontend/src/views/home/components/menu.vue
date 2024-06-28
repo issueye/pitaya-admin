@@ -17,12 +17,12 @@
           <span>首页</span>
         </template>
       </el-menu-item>
-      <el-sub-menu index="/page" style="border-bottom: 1px solid #d9d9d9">
+      <el-sub-menu index="/resource" style="border-bottom: 1px solid #d9d9d9">
         <template #title>
           <el-icon>
             <Icon icon="dashicons:text-page" />
           </el-icon>
-          <span>页面管理</span>
+          <span>资源管理</span>
         </template>
         <el-menu-item index="/page/resource_management">资源管理</el-menu-item>
       </el-sub-menu>

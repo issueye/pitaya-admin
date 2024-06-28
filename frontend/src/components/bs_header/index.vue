@@ -1,11 +1,11 @@
 <template>
 <div class="bs-header-box">
     <div>
-        <span class="bs-header-title">{{ title }}</span>
+        <span class="ml-5 text-[#262626] leading-8 text-base font-bold" style="vertical-align: middle">{{ title }}</span>
         <el-divider direction="vertical" />
-        <span class="bs-header-description">{{ description }}</span>
+        <span class="text-[#BFBFBF] text-xs">{{ description }}</span>
     </div>
-    <div class="bs-header-actions">
+    <div class="mr-2.5">
         <slot name="actions"></slot>
     </div>
 </div>
@@ -37,23 +37,5 @@ const props = defineProps({
     align-items: center;
     background-color: #fff;
     border-bottom: 1px solid #D9D9D9;
-
-    .bs-header-actions{
-        margin-right: 10px;
-    }
-
-    .bs-header-title {
-        margin-left: 20px;
-        line-height: 30px;
-        font-size: 18px;
-        font-weight: bold;
-        vertical-align: middle;
-        color: #262626;
-    }
-
-    .bs-header-description{
-        color: #BFBFBF;
-        font-size: 11px;
-    }
 }
 </style>

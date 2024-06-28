@@ -56,6 +56,50 @@ export const useMenuStore = defineStore(
         }
 
         /**
+         * 移除所有标签
+         */
+        const removeAllBar = () => {
+            navBar.value = [{ ...selfDash }]
+            activeMenu.value = selfDash.index
+            router.push(selfDash.index)
+        }
+
+        /**
+         * 移除当前标签
+         * @param {*} data 
+         */
+        const removeCurrentBar = (data) => {
+            const tab = navBar.value.find(e => e.index == data.index)
+            if (tab) {
+                navBar.value = navBar.value.filter(e => e.index !== data.index)
+            }
+
+            if (activeMenu.value == data.index) {
+                const lastMenu = navBar.value[navBar.value.length - 1];
+                activeMenu.value = lastMenu.index;
+                router.push(activeMenu.value)
+            }
+        }
+
+        /**
+         * 移除其他标签
+         * @param {*} data 
+         */
+        const removeOtherBar = (data) => {
+            const tab = navBar.value.find(e => e.index == data.index)
+            if (tab) {
+                // 移除其他菜单时需要保留 selfDash
+                navBar.value = [{ ...selfDash }, ...navBar.value.filter(e => e.index == data.index)]
+            }
+
+            if (activeMenu.value == data.index) {
+                const lastMenu = navBar.value[navBar.value.length - 1];
+                activeMenu.value = lastMenu.index;
+                router.push(activeMenu.value)
+            }
+        }
+
+        /**
          * 移除标签
          * @param {*} data 
          */
@@ -102,6 +146,9 @@ export const useMenuStore = defineStore(
             changeCollapse,
             setNavBar,
             removeBar,
+            removeAllBar,
+            removeCurrentBar,
+            removeOtherBar,
             setActiveMenu,
         }
     },
