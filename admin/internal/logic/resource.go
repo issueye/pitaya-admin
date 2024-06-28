@@ -25,7 +25,7 @@ type ResourceSSE struct {
 
 type Resource struct{}
 
-func (Resource) Get(req *repository.QueryResource) ([]*model.ResourceInfo, error) {
+func (Resource) Get(req *model.Page[*repository.QueryResource]) ([]*model.ResourceInfo, error) {
 	return service.NewResource().Query(req)
 }
 

@@ -2,54 +2,55 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/issueye/pitaya_admin/internal/common/model"
 )
 
-type Controller struct {
+type Controller[T any] struct {
 	*gin.Context
 }
 
-func New(ctx *gin.Context) *Controller {
-	return &Controller{
+func New[T any](ctx *gin.Context) *Controller[T] {
+	return &Controller[T]{
 		Context: ctx,
 	}
 }
 
-func (c *Controller) Success() {
+func NewA(ctx *gin.Context) *Controller[any] {
+	return New[any](ctx)
+}
+
+func (c *Controller[T]) Success() {
 	Success(c.Context)
 }
 
-func (c *Controller) SuccessByMsg(msg string) {
+func (c *Controller[T]) SuccessByMsg(msg string) {
 	SuccessByMsg(c.Context, msg)
 }
 
-func (c *Controller) SuccessByMsgf(fmtStr string, args ...any) {
+func (c *Controller[T]) SuccessByMsgf(fmtStr string, args ...any) {
 	SuccessByMsgf(c.Context, fmtStr, args...)
 }
 
-func (c *Controller) SuccessData(data interface{}) {
+func (c *Controller[T]) SuccessData(data interface{}) {
 	SuccessData(c.Context, data)
 }
 
-func (c *Controller) SuccessAutoData(req interface{}, data interface{}) {
-	SuccessAutoData(c.Context, req, data)
+func (c *Controller[T]) SuccessPage(req *model.Page[T], data interface{}) {
+	SuccessPage(c.Context, req, data)
 }
 
-func (c *Controller) SuccessPage(data interface{}) {
-	SuccessPage(c.Context, data)
-}
-
-func (c *Controller) Fail() {
+func (c *Controller[T]) Fail() {
 	Fail(c.Context, BAD_REQUEST)
 }
 
-func (c *Controller) FailByMsg(msg string) {
+func (c *Controller[T]) FailByMsg(msg string) {
 	FailByMsg(c.Context, msg)
 }
 
-func (c *Controller) FailByMsgf(fmtStr string, args ...any) {
+func (c *Controller[T]) FailByMsgf(fmtStr string, args ...any) {
 	FailByMsgf(c.Context, fmtStr, args...)
 }
 
-func (c *Controller) FailBind(err error) {
+func (c *Controller[T]) FailBind(err error) {
 	FailBind(c.Context, err)
 }

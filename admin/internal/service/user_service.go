@@ -136,21 +136,21 @@ func (user *User) Delete(id string) error {
 
 // List
 // 获取用户列表
-func (user *User) List(info *repository.QueryUser) ([]*repository.ResUserGroupData, error) {
+func (user *User) List(info *model.Page[*repository.QueryUser]) ([]*repository.ResUserGroupData, error) {
 	userInfo := new(model.UserInfo)
 	list := make([]*repository.ResUserGroupData, 0)
 
 	sqlStr := fmt.Sprintf("SELECT U.*, G.name as group_name FROM %s U, %s G WHERE U.group_id = G.id", userInfo.TableName(), model.UserGroupInfo{}.TableName())
-	err := user.DataFilter(fmt.Sprintf("(%s)TB", sqlStr), info, &list, func(db *gorm.DB) (*gorm.DB, error) {
+	err := service.Filter(user, fmt.Sprintf("(%s)TB", sqlStr), info, &list, func(db *gorm.DB) (*gorm.DB, error) {
 		query := db.Order("id")
 
 		// 用户姓名
-		if info.Name != "" {
-			query = query.Where("name like ?", fmt.Sprintf("%%%s%%", info.Name))
+		if info.Condition.Name != "" {
+			query = query.Where("name like ?", fmt.Sprintf("%%%s%%", info.Condition.Name))
 		}
 
 		// 查询条件
-		if info.Condition != "" {
+		if info.Condition.Condition != "" {
 			query = query.
 				Where("name like ?", fmt.Sprintf("%%%s%%", info.Condition)).
 				Or("mark like ?", fmt.Sprintf("%%%s%%", info.Condition))
@@ -158,5 +158,6 @@ func (user *User) List(info *repository.QueryUser) ([]*repository.ResUserGroupDa
 
 		return query, nil
 	})
+
 	return list, err
 }

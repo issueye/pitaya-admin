@@ -6,6 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/issueye/pitaya_admin/internal/common/controller"
+	"github.com/issueye/pitaya_admin/internal/common/model"
 	"github.com/issueye/pitaya_admin/internal/global"
 	"github.com/issueye/pitaya_admin/internal/logic"
 	"github.com/issueye/pitaya_admin/internal/repository"
@@ -13,7 +14,7 @@ import (
 )
 
 type GroupMenuController struct {
-	controller.Controller
+	controller.Controller[any]
 }
 
 func NewGroupMenuController() *GroupMenuController {
@@ -32,9 +33,11 @@ func NewGroupMenuController() *GroupMenuController {
 //	@Router			/api/v1/groupMenu [get]
 //	@Security		ApiKeyAuth
 func (GroupMenuController) List(ctx *gin.Context) {
-	control := controller.New(ctx)
 
-	req := new(repository.QueryGroupMenu)
+	control := controller.New[*repository.QueryGroupMenu](ctx)
+
+	req := model.NewPage(new(repository.QueryGroupMenu))
+	// req := new(repository.QueryGroupMenu)
 	err := control.Bind(req)
 	if err != nil {
 		global.Log.Errorf("绑定请求内容失败 %s", err.Error())
@@ -48,7 +51,7 @@ func (GroupMenuController) List(ctx *gin.Context) {
 		return
 	}
 
-	control.SuccessAutoData(req, list)
+	control.SuccessPage(req, list)
 }
 
 // getMenu doc
@@ -64,7 +67,7 @@ func (GroupMenuController) List(ctx *gin.Context) {
 //	@Router			/api/v1/groupMenu/getMenu/{groupId} [get]
 //	@Security		ApiKeyAuth
 func (GroupMenuController) GetMenu(ctx *gin.Context) {
-	control := controller.New(ctx)
+	control := controller.New[*repository.QueryGroupMenu](ctx)
 
 	id := control.Param("groupId")
 	if id == "" {
@@ -72,7 +75,7 @@ func (GroupMenuController) GetMenu(ctx *gin.Context) {
 		return
 	}
 
-	req := new(repository.QueryGroupMenu)
+	req := model.NewPage(new(repository.QueryGroupMenu))
 	err := control.Bind(req)
 	if err != nil {
 		global.Log.Errorf("绑定请求内容失败 %s", err.Error())
@@ -80,7 +83,7 @@ func (GroupMenuController) GetMenu(ctx *gin.Context) {
 		return
 	}
 
-	req.GroupId = id
+	req.Condition.GroupId = id
 	list, err := service.NewGroupMenu().List(req)
 	if err != nil {
 		control.FailByMsgf("查询菜单组信息列表失败 %s", err.Error())
@@ -122,7 +125,7 @@ func (GroupMenuController) GetMenu(ctx *gin.Context) {
 	}
 
 	for _, element := range list {
-		if !req.GetAll {
+		if !req.Condition.GetAll {
 			if element.State == 0 && element.Level == 1 {
 				continue
 			}
@@ -181,7 +184,7 @@ func (GroupMenuController) GetMenu(ctx *gin.Context) {
 //	@Router			/api/v1/groupMenu/{id} [get]
 //	@Security		ApiKeyAuth
 func (GroupMenuController) GetById(ctx *gin.Context) {
-	control := controller.New(ctx)
+	control := controller.NewA(ctx)
 
 	id := control.Param("id")
 	if id == "" {
@@ -211,7 +214,7 @@ func (GroupMenuController) GetById(ctx *gin.Context) {
 //	@Router			/api/v1/groupMenu [post]
 //	@Security		ApiKeyAuth
 func (GroupMenuController) Create(ctx *gin.Context) {
-	control := controller.New(ctx)
+	control := controller.NewA(ctx)
 
 	req := new(repository.CreateGroupMenu)
 	err := control.Bind(req)
@@ -242,7 +245,7 @@ func (GroupMenuController) Create(ctx *gin.Context) {
 //	@Router			/api/v1/groupMenu/{id} [put]
 //	@Security		ApiKeyAuth
 func (GroupMenuController) Modify(ctx *gin.Context) {
-	control := controller.New(ctx)
+	control := controller.NewA(ctx)
 
 	req := new(repository.ModifyGroupMenu)
 	err := ctx.Bind(req)
@@ -280,7 +283,7 @@ func (GroupMenuController) Modify(ctx *gin.Context) {
 //	@Router			/api/v1/groupMenu/auth/{id} [put]
 //	@Security		ApiKeyAuth
 func (GroupMenuController) ModifyGroupMenuState(ctx *gin.Context) {
-	control := controller.New(ctx)
+	control := controller.NewA(ctx)
 
 	req := new(repository.ModifyGroupMenuState)
 	err := ctx.Bind(req)
@@ -317,7 +320,7 @@ func (GroupMenuController) ModifyGroupMenuState(ctx *gin.Context) {
 //	@Router			/api/v1/groupMenu/state/{id} [put]
 //	@Security		ApiKeyAuth
 func (GroupMenuController) ModifyState(ctx *gin.Context) {
-	control := controller.New(ctx)
+	control := controller.NewA(ctx)
 
 	id := control.Param("id")
 	if id == "" {
@@ -346,7 +349,7 @@ func (GroupMenuController) ModifyState(ctx *gin.Context) {
 //	@Router			/api/v1/groupMenu/{id} [delete]
 //	@Security		ApiKeyAuth
 func (GroupMenuController) Delete(ctx *gin.Context) {
-	control := controller.New(ctx)
+	control := controller.NewA(ctx)
 
 	id := control.Param("id")
 	if id == "" {

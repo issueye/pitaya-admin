@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/issueye/pitaya_admin/internal/common/controller"
+	"github.com/issueye/pitaya_admin/internal/common/model"
 	"github.com/issueye/pitaya_admin/internal/global"
 	"github.com/issueye/pitaya_admin/internal/logic"
 	"github.com/issueye/pitaya_admin/internal/repository"
@@ -12,7 +13,7 @@ import (
 )
 
 type UserController struct {
-	controller.Controller
+	controller.Controller[any]
 }
 
 func NewUserController() *UserController {
@@ -31,9 +32,10 @@ func NewUserController() *UserController {
 //	@Router			/api/v1/user [get]
 //	@Security		ApiKeyAuth
 func (UserController) List(ctx *gin.Context) {
-	control := controller.New(ctx)
+	control := controller.New[*repository.QueryUser](ctx)
 
-	req := new(repository.QueryUser)
+	req := model.NewPage(&repository.QueryUser{})
+
 	err := control.Bind(req)
 	if err != nil {
 		global.Log.Errorf("绑定请求内容失败 %s", err.Error())
@@ -48,7 +50,7 @@ func (UserController) List(ctx *gin.Context) {
 		return
 	}
 
-	control.SuccessAutoData(req, list)
+	control.SuccessPage(req, list)
 }
 
 // GetById doc
@@ -63,7 +65,7 @@ func (UserController) List(ctx *gin.Context) {
 //	@Router			/api/v1/user/{id} [get]
 //	@Security		ApiKeyAuth
 func (UserController) GetById(ctx *gin.Context) {
-	control := controller.New(ctx)
+	control := controller.New[any](ctx)
 
 	id := control.Param("id")
 	if id == "" {
@@ -93,7 +95,7 @@ func (UserController) GetById(ctx *gin.Context) {
 //	@Router			/api/v1/user [post]
 //	@Security		ApiKeyAuth
 func (UserController) Create(ctx *gin.Context) {
-	control := controller.New(ctx)
+	control := controller.New[any](ctx)
 
 	req := new(repository.CreateUser)
 	err := control.Bind(req)
@@ -124,7 +126,7 @@ func (UserController) Create(ctx *gin.Context) {
 //	@Router			/api/v1/user/{id} [put]
 //	@Security		ApiKeyAuth
 func (UserController) Modify(ctx *gin.Context) {
-	control := controller.New(ctx)
+	control := controller.New[any](ctx)
 
 	req := new(repository.ModifyUser)
 	err := ctx.Bind(req)
@@ -161,7 +163,7 @@ func (UserController) Modify(ctx *gin.Context) {
 //	@Router			/api/v1/user/state/{id} [put]
 //	@Security		ApiKeyAuth
 func (UserController) ModifyState(ctx *gin.Context) {
-	control := controller.New(ctx)
+	control := controller.New[any](ctx)
 
 	id := control.Param("id")
 	if id == "" {
@@ -190,7 +192,7 @@ func (UserController) ModifyState(ctx *gin.Context) {
 //	@Router			/api/v1/user/{id} [delete]
 //	@Security		ApiKeyAuth
 func (UserController) Delete(ctx *gin.Context) {
-	control := controller.New(ctx)
+	control := controller.New[any](ctx)
 
 	id := control.Param("id")
 	if id == "" {

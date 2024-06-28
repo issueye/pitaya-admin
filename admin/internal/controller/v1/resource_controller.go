@@ -7,12 +7,15 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/issueye/pitaya_admin/internal/common/controller"
+	"github.com/issueye/pitaya_admin/internal/common/model"
 	"github.com/issueye/pitaya_admin/internal/global"
 	"github.com/issueye/pitaya_admin/internal/logic"
 	"github.com/issueye/pitaya_admin/internal/repository"
 )
 
-type ResourceController struct{}
+type ResourceController struct {
+	controller.Controller[any]
+}
 
 // Create doc
 //
@@ -26,7 +29,7 @@ type ResourceController struct{}
 //	@Router			/api/v1/resource [post]
 //	@Security		ApiKeyAuth
 func (ResourceController) Create(ctx *gin.Context) {
-	c := controller.New(ctx)
+	c := controller.New[any](ctx)
 
 	// 绑定请求数据
 	req := new(repository.CreateResource)
@@ -58,7 +61,7 @@ func (ResourceController) Create(ctx *gin.Context) {
 //	@Router			/api/v1/resource [put]
 //	@Security		ApiKeyAuth
 func (ResourceController) Modify(ctx *gin.Context) {
-	c := controller.New(ctx)
+	c := controller.New[any](ctx)
 
 	// 绑定请求数据
 	req := new(repository.ModifyResource)
@@ -89,10 +92,10 @@ func (ResourceController) Modify(ctx *gin.Context) {
 //	@Router			/api/v1/resource [get]
 //	@Security		ApiKeyAuth
 func (ResourceController) Query(ctx *gin.Context) {
-	c := controller.New(ctx)
+	c := controller.New[*repository.QueryResource](ctx)
 
 	// 绑定请求数据
-	req := new(repository.QueryResource)
+	req := model.NewPage(new(repository.QueryResource))
 	err := c.Bind(req)
 	if err != nil {
 		c.FailBind(err)
@@ -105,7 +108,7 @@ func (ResourceController) Query(ctx *gin.Context) {
 		return
 	}
 
-	c.SuccessAutoData(req, list)
+	c.SuccessPage(req, list)
 }
 
 // GetById doc
@@ -120,7 +123,7 @@ func (ResourceController) Query(ctx *gin.Context) {
 //	@Router			/api/v1/resource/{id} [get]
 //	@Security		ApiKeyAuth
 func (ResourceController) GetById(ctx *gin.Context) {
-	c := controller.New(ctx)
+	c := controller.New[any](ctx)
 
 	id := c.Param("id")
 	if id == "" {
@@ -149,7 +152,7 @@ func (ResourceController) GetById(ctx *gin.Context) {
 //	@Router			/api/v1/resource [delete]
 //	@Security		ApiKeyAuth
 func (ResourceController) Del(ctx *gin.Context) {
-	c := controller.New(ctx)
+	c := controller.New[any](ctx)
 
 	id := c.Param("id")
 	if id == "" {
@@ -178,7 +181,7 @@ func (ResourceController) Del(ctx *gin.Context) {
 //	@Router			/api/v1/resource/upload [post]
 //	@Security		ApiKeyAuth
 func (ResourceController) UploadFile(ctx *gin.Context) {
-	c := controller.New(ctx)
+	c := controller.New[any](ctx)
 	data := new(repository.UploadData)
 
 	err := c.ShouldBind(data)
@@ -208,7 +211,7 @@ func (ResourceController) UploadFile(ctx *gin.Context) {
 //	@Router			/api/v1/resource/upload/sse [get]
 //	@Security		ApiKeyAuth
 func (ResourceController) UploadFileSSE(ctx *gin.Context) {
-	c := controller.New(ctx)
+	c := controller.New[any](ctx)
 
 	// 使用 sse 代理此请求
 	global.SSE.ServeHTTP(c.Writer, c.Request)
@@ -226,7 +229,7 @@ func (ResourceController) UploadFileSSE(ctx *gin.Context) {
 //	@Router			/api/v1/resource/upload/{name} [delete]
 //	@Security		ApiKeyAuth
 func (ResourceController) UnUploadFile(ctx *gin.Context) {
-	c := controller.New(ctx)
+	c := controller.New[any](ctx)
 
 	name := c.Param("name")
 	if name == "" {

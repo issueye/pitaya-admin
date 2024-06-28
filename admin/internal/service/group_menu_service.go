@@ -97,17 +97,18 @@ func (GroupMenu *GroupMenu) DelByGroupId(id string) error {
 
 // List
 // 获取用户组菜单列表
-func (GroupMenu *GroupMenu) List(info *repository.QueryGroupMenu) ([]*model.GroupMenu, error) {
+func (GroupMenu *GroupMenu) List(info *model.Page[*repository.QueryGroupMenu]) ([]*model.GroupMenu, error) {
 	GroupMenuInfo := new(model.GroupMenu)
 	list := make([]*model.GroupMenu, 0)
-	err := GroupMenu.DataFilter(GroupMenuInfo.TableName(), info, &list, func(db *gorm.DB) (*gorm.DB, error) {
+
+	err := service.Filter(GroupMenu, GroupMenuInfo.TableName(), info, &list, func(db *gorm.DB) (*gorm.DB, error) {
 		query := db.Order("level").Order("[order]")
 
-		if info.GroupId != "" {
-			query = query.Where("group_id = ?", info.GroupId)
+		if info.Condition.GroupId != "" {
+			query = query.Where("group_id = ?", info.Condition.GroupId)
 		}
 
-		if info.Condition != "" {
+		if info.Condition.Condition != "" {
 			query = query.
 				Where("name like ?", fmt.Sprintf("%%%s%%", info.Condition)).
 				Or("title like ?", fmt.Sprintf("%%%s%%", info.Condition)).

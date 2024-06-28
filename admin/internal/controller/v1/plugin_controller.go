@@ -8,7 +8,7 @@ import (
 )
 
 type PluginController struct {
-	controller.Controller
+	controller.Controller[any]
 }
 
 func NewPluginController() *PluginController {
@@ -27,7 +27,7 @@ func NewPluginController() *PluginController {
 //	@Router			/api/v1/plugin [post]
 //	@Security		ApiKeyAuth
 func (PluginController) Create(ctx *gin.Context) {
-	c := controller.New(ctx)
+	c := controller.New[any](ctx)
 
 	req := new(repository.CreatePlugin)
 	err := c.Bind(req)

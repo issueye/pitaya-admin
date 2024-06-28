@@ -40,6 +40,8 @@ func InitRouter(r *gin.Engine) {
 	// 查询 http 报文
 	// version.GET("query/httpMessages", v1.QueryHttpMessages)
 	version.POST("depository", v1.DepositoryPost)
+	version.GET("develop/getAllTable", v1.DevelopController{}.GetTables)
+	version.GET("develop/getTableColumns/:table", v1.DevelopController{}.GetTableFields)
 }
 
 // registerRouter 注册路由

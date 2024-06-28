@@ -95,7 +95,7 @@ func (UserGroup *UserGroup) Create(data *repository.CreateUserGroup) error {
 	}
 
 	var menuList []*model.Menu
-	menuList, err = NewMenu().List(&repository.QueryMenu{Level: -1})
+	menuList, err = NewMenu().List(model.NewPage(&repository.QueryMenu{Level: -1}))
 	if err != nil {
 		return err
 	}
@@ -156,20 +156,21 @@ func (UserGroup *UserGroup) Delete(id string) error {
 
 // List
 // 获取用户列表
-func (UserGroup *UserGroup) List(info *repository.QueryUserGroup) ([]*model.UserGroupInfo, error) {
+func (UserGroup *UserGroup) List(info *model.Page[*repository.QueryUserGroup]) ([]*model.UserGroupInfo, error) {
 	UserGroupInfo := new(model.UserGroupInfo)
 	list := make([]*model.UserGroupInfo, 0)
-	err := UserGroup.DataFilter(UserGroupInfo.TableName(), info, &list, func(db *gorm.DB) (*gorm.DB, error) {
+
+	err := service.Filter(UserGroup, UserGroupInfo.TableName(), info, &list, func(db *gorm.DB) (*gorm.DB, error) {
 		query := db.Order("id")
 
 		// 组名称
-		if info.Name != "" {
-			query = query.Where("name like ?", fmt.Sprintf("%%%s%%", info.Name))
+		if info.Condition.Name != "" {
+			query = query.Where("name like ?", fmt.Sprintf("%%%s%%", info.Condition.Name))
 		}
 
 		// 备注
-		if info.Mark != "" {
-			query = query.Where("mark like ?", fmt.Sprintf("%%%s%%", info.Name))
+		if info.Condition.Mark != "" {
+			query = query.Where("mark like ?", fmt.Sprintf("%%%s%%", info.Condition.Name))
 		}
 
 		return query, nil

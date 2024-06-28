@@ -39,13 +39,13 @@ func (s *Resource) Create(data *repository.CreateResource) error {
 
 // Query
 // 查询数据
-func (s *Resource) Query(req *repository.QueryResource) ([]*model.ResourceInfo, error) {
+func (s *Resource) Query(req *model.Page[*repository.QueryResource]) ([]*model.ResourceInfo, error) {
 	list := make([]*model.ResourceInfo, 0)
 
-	err := s.DataFilter(model.ResourceInfo{}.TableName(), req, &list, func(db *gorm.DB) (*gorm.DB, error) {
+	err := service.Filter(s, model.ResourceInfo{}.TableName(), req, &list, func(db *gorm.DB) (*gorm.DB, error) {
 		q := db.Order("created_at")
 
-		if req.Condition != "" {
+		if req.Condition.Condition != "" {
 			q = q.Where("file_name like ?", fmt.Sprintf("%%%s%%", req.Condition)).
 				Or("ext like ?", fmt.Sprintf("%%%s%%", req.Condition)).
 				Or("title like ?", fmt.Sprintf("%%%s%%", req.Condition)).

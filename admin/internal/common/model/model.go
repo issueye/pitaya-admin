@@ -2,10 +2,15 @@ package model
 
 import "time"
 
-type Page struct {
-	PageNum  int64 `json:"pageNum" form:"pageNum"`   // 页数
-	PageSize int64 `json:"pageSize" form:"pageSize"` // 页码
-	Total    int64 `json:"total"`                    // 总数  由服务器返回回去
+type Page[T any] struct {
+	PageNum   int64 `json:"pageNum" form:"pageNum"`   // 页数
+	PageSize  int64 `json:"pageSize" form:"pageSize"` // 页码
+	Total     int64 `json:"total"`                    // 总数  由服务器返回回去
+	Condition T     `json:"condition"`                // 条件
+}
+
+func NewPage[T any](condition T) *Page[T] {
+	return &Page[T]{Condition: condition}
 }
 
 type Base struct {

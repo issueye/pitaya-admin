@@ -26,7 +26,6 @@ type QueryGroupMenu struct {
 	GroupId   string `json:"groupId" form:"groupId"`     // 用户组编码
 	State     uint   `json:"state" form:"state"`         // 备注
 	GetAll    bool   `json:"getAll" form:"getAll"`       // 获取所有
-	model.Page
 }
 
 type ResGroupMenu struct {

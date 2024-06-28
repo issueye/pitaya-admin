@@ -17,6 +17,15 @@
           <span>首页</span>
         </template>
       </el-menu-item>
+      <el-sub-menu index="/develop">
+        <template #title>
+          <el-icon>
+            <Icon icon="dashicons:text-page" />
+          </el-icon>
+          <span>开发工具</span>
+        </template>
+        <el-menu-item index="/develop/develop_tool">代码生成</el-menu-item>
+      </el-sub-menu>
       <el-sub-menu index="/resource" style="border-bottom: 1px solid #d9d9d9">
         <template #title>
           <el-icon>
@@ -64,6 +73,18 @@ const menus = [
     index: "/dashboard",
     title: "首页",
     icon: "mdi-light:home",
+  },
+  {
+    index: "/develop",
+    title: "开发工具",
+    icon: "dashicons:text-page",
+    children: [
+      {
+        index: "/develop/develop_tool",
+        title: "代码生成",
+        icon: "iconoir:page",
+      },
+    ],
   },
   {
     index: "/page",

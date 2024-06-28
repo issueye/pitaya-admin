@@ -5,15 +5,14 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/issueye/pitaya_admin/internal/common/controller"
+	"github.com/issueye/pitaya_admin/internal/common/model"
 	"github.com/issueye/pitaya_admin/internal/global"
 	"github.com/issueye/pitaya_admin/internal/logic"
 	"github.com/issueye/pitaya_admin/internal/repository"
 	"github.com/issueye/pitaya_admin/internal/service"
 )
 
-type MenuController struct {
-	controller.Controller
-}
+type MenuController struct{}
 
 func NewMenuController() *MenuController {
 	return new(MenuController)
@@ -31,9 +30,9 @@ func NewMenuController() *MenuController {
 //	@Router			/api/v1/menu [get]
 //	@Security		ApiKeyAuth
 func (MenuController) List(ctx *gin.Context) {
-	control := controller.New(ctx)
+	control := controller.New[*repository.QueryMenu](ctx)
 
-	req := new(repository.QueryMenu)
+	req := model.NewPage(new(repository.QueryMenu))
 	err := control.Bind(req)
 	if err != nil {
 		global.Log.Errorf("绑定请求内容失败 %s", err.Error())
@@ -47,7 +46,7 @@ func (MenuController) List(ctx *gin.Context) {
 		return
 	}
 
-	control.SuccessAutoData(req, list)
+	control.SuccessPage(req, list)
 }
 
 // TreeList doc
@@ -62,9 +61,9 @@ func (MenuController) List(ctx *gin.Context) {
 //	@Router			/api/v1/menu/tree [get]
 //	@Security		ApiKeyAuth
 func (MenuController) TreeList(ctx *gin.Context) {
-	control := controller.New(ctx)
+	control := controller.New[*repository.QueryMenu](ctx)
 
-	req := new(repository.QueryMenu)
+	req := model.NewPage(new(repository.QueryMenu))
 	err := control.Bind(req)
 	if err != nil {
 		global.Log.Errorf("绑定请求内容失败 %s", err.Error())
@@ -78,7 +77,7 @@ func (MenuController) TreeList(ctx *gin.Context) {
 		return
 	}
 
-	control.SuccessAutoData(req, list)
+	control.SuccessPage(req, list)
 }
 
 // GetById doc
@@ -93,7 +92,7 @@ func (MenuController) TreeList(ctx *gin.Context) {
 //	@Router			/api/v1/menu/{id} [get]
 //	@Security		ApiKeyAuth
 func (MenuController) GetById(ctx *gin.Context) {
-	control := controller.New(ctx)
+	control := controller.NewA(ctx)
 
 	id := control.Param("id")
 	if id == "" {
@@ -122,7 +121,7 @@ func (MenuController) GetById(ctx *gin.Context) {
 //	@Router			/api/v1/menu [post]
 //	@Security		ApiKeyAuth
 func (MenuController) Create(ctx *gin.Context) {
-	control := controller.New(ctx)
+	control := controller.NewA(ctx)
 
 	req := new(repository.CreateMenu)
 	err := control.Bind(req)
@@ -153,7 +152,7 @@ func (MenuController) Create(ctx *gin.Context) {
 //	@Router			/api/v1/menu/{id} [put]
 //	@Security		ApiKeyAuth
 func (MenuController) Modify(ctx *gin.Context) {
-	control := controller.New(ctx)
+	control := controller.NewA(ctx)
 
 	req := new(repository.ModifyMenu)
 	err := ctx.Bind(req)
@@ -190,7 +189,7 @@ func (MenuController) Modify(ctx *gin.Context) {
 //	@Router			/api/v1/menu/state/{id} [put]
 //	@Security		ApiKeyAuth
 func (MenuController) ModifyState(ctx *gin.Context) {
-	control := controller.New(ctx)
+	control := controller.NewA(ctx)
 
 	id := control.Param("id")
 	if id == "" {
@@ -219,7 +218,7 @@ func (MenuController) ModifyState(ctx *gin.Context) {
 //	@Router			/api/v1/menu/{id} [delete]
 //	@Security		ApiKeyAuth
 func (MenuController) Delete(ctx *gin.Context) {
-	control := controller.New(ctx)
+	control := controller.NewA(ctx)
 
 	id := control.Param("id")
 	if id == "" {

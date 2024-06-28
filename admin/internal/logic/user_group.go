@@ -75,7 +75,7 @@ func (UserGroup) ModifyState(id string) error {
 
 // 检查管理员组中的菜单是否完全，如果不完全则补全
 func (UserGroup) CreateAdminNonExistent() error {
-	userGroupMenus, err := service.NewGroupMenu().List(&repository.QueryGroupMenu{GroupId: global.AdminGroupId})
+	userGroupMenus, err := service.NewGroupMenu().List(model.NewPage(&repository.QueryGroupMenu{GroupId: global.AdminGroupId}))
 	if err != nil {
 		return err
 	}
@@ -90,7 +90,7 @@ func (UserGroup) CreateAdminNonExistent() error {
 		return nil
 	}
 
-	menus, err := service.NewMenu().List(&repository.QueryMenu{Level: -1})
+	menus, err := service.NewMenu().List(model.NewPage(&repository.QueryMenu{Level: -1}))
 	if err != nil {
 		return err
 	}

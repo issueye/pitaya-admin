@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/issueye/pitaya_admin/internal/common/controller"
+	"github.com/issueye/pitaya_admin/internal/common/model"
 	"github.com/issueye/pitaya_admin/internal/global"
 	"github.com/issueye/pitaya_admin/internal/logic"
 	"github.com/issueye/pitaya_admin/internal/repository"
@@ -12,7 +13,7 @@ import (
 )
 
 type UserGroupController struct {
-	controller.Controller
+	controller.Controller[any]
 }
 
 func NewUserGroupController() *UserGroupController {
@@ -31,9 +32,9 @@ func NewUserGroupController() *UserGroupController {
 //	@Router			/api/v1/userGroup [get]
 //	@Security		ApiKeyAuth
 func (UserGroupController) List(ctx *gin.Context) {
-	control := controller.New(ctx)
+	control := controller.New[*repository.QueryUserGroup](ctx)
 
-	req := new(repository.QueryUserGroup)
+	req := model.NewPage(new(repository.QueryUserGroup))
 	err := control.Bind(req)
 	if err != nil {
 		global.Log.Errorf("绑定请求内容失败 %s", err.Error())
@@ -48,7 +49,7 @@ func (UserGroupController) List(ctx *gin.Context) {
 		return
 	}
 
-	control.SuccessAutoData(req, list)
+	control.SuccessPage(req, list)
 }
 
 // GetById doc
@@ -63,7 +64,7 @@ func (UserGroupController) List(ctx *gin.Context) {
 //	@Router			/api/v1/userGroup/{id} [get]
 //	@Security		ApiKeyAuth
 func (UserGroupController) GetById(ctx *gin.Context) {
-	control := controller.New(ctx)
+	control := controller.New[any](ctx)
 
 	id := control.Param("id")
 	if id == "" {
@@ -93,7 +94,7 @@ func (UserGroupController) GetById(ctx *gin.Context) {
 //	@Router			/api/v1/userGroup [post]
 //	@Security		ApiKeyAuth
 func (UserGroupController) Create(ctx *gin.Context) {
-	control := controller.New(ctx)
+	control := controller.New[any](ctx)
 
 	req := new(repository.CreateUserGroup)
 	err := control.Bind(req)
@@ -124,7 +125,7 @@ func (UserGroupController) Create(ctx *gin.Context) {
 //	@Router			/api/v1/userGroup/{id} [put]
 //	@Security		ApiKeyAuth
 func (UserGroupController) Modify(ctx *gin.Context) {
-	control := controller.New(ctx)
+	control := controller.New[any](ctx)
 
 	req := new(repository.ModifyUserGroup)
 	err := ctx.Bind(req)
@@ -161,7 +162,7 @@ func (UserGroupController) Modify(ctx *gin.Context) {
 //	@Router			/api/v1/userGroup/state/{id} [put]
 //	@Security		ApiKeyAuth
 func (UserGroupController) ModifyState(ctx *gin.Context) {
-	control := controller.New(ctx)
+	control := controller.New[any](ctx)
 
 	id := control.Param("id")
 	if id == "" {
@@ -190,7 +191,7 @@ func (UserGroupController) ModifyState(ctx *gin.Context) {
 //	@Router			/api/v1/userGroup/{id} [delete]
 //	@Security		ApiKeyAuth
 func (UserGroupController) Delete(ctx *gin.Context) {
-	control := controller.New(ctx)
+	control := controller.New[any](ctx)
 
 	id := control.Param("id")
 	if id == "" {

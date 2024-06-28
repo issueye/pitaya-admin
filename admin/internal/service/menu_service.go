@@ -121,47 +121,49 @@ func (Menu *Menu) Delete(id string) error {
 
 // List
 // 获取用户列表
-func (Menu *Menu) List(info *repository.QueryMenu) ([]*model.Menu, error) {
+func (Menu *Menu) List(info *model.Page[*repository.QueryMenu]) ([]*model.Menu, error) {
 	MenuInfo := new(model.Menu)
 	list := make([]*model.Menu, 0)
-	err := Menu.DataFilter(MenuInfo.TableName(), info, &list, func(db *gorm.DB) (*gorm.DB, error) {
+
+	err := service.Filter(Menu, MenuInfo.TableName(), info, &list, func(db *gorm.DB) (*gorm.DB, error) {
 		query := db.Order("[order]")
 
 		// 通用统一条件
-		if info.Condition != "" {
+		if info.Condition.Condition != "" {
 			query = query.
 				Where("name like ?", fmt.Sprintf("%%%s%%", info.Condition)).
 				Or("title like ?", fmt.Sprintf("%%%s%%", info.Condition)).
 				Or("route like ?", fmt.Sprintf("%%%s%%", info.Condition))
 		}
 
-		if info.Level > -1 {
-			query = query.Where("level = ?", info.Level)
+		if info.Condition.Level > -1 {
+			query = query.Where("level = ?", info.Condition.Level)
 		}
 
 		return query, nil
 	})
+
 	return list, err
 }
 
 // List
 // 获取用户列表
-func (Menu *Menu) TreeList(info *repository.QueryMenu) ([]*repository.ResTreeMenus, error) {
+func (Menu *Menu) TreeList(info *model.Page[*repository.QueryMenu]) ([]*repository.ResTreeMenus, error) {
 	MenuInfo := new(model.Menu)
 	list := make([]*model.Menu, 0)
-	err := Menu.DataFilter(MenuInfo.TableName(), info, &list, func(db *gorm.DB) (*gorm.DB, error) {
+	err := service.Filter(Menu, MenuInfo.TableName(), info, &list, func(db *gorm.DB) (*gorm.DB, error) {
 		query := db.Order("[order]")
 
 		// 通用统一条件
-		if info.Condition != "" {
+		if info.Condition.Condition != "" {
 			query = query.
 				Where("name like ?", fmt.Sprintf("%%%s%%", info.Condition)).
 				Or("title like ?", fmt.Sprintf("%%%s%%", info.Condition)).
 				Or("route like ?", fmt.Sprintf("%%%s%%", info.Condition))
 		}
 
-		if info.Level > -1 {
-			query = query.Where("level = ?", info.Level)
+		if info.Condition.Level > -1 {
+			query = query.Where("level = ?", info.Condition.Level)
 		}
 
 		return query, nil

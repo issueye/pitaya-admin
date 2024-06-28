@@ -3,9 +3,9 @@ package controller
 import (
 	"fmt"
 	"net/http"
-	"reflect"
 	"time"
 
+	"github.com/issueye/pitaya_admin/internal/common/model"
 	"github.com/issueye/pitaya_admin/pkg/utils"
 
 	"github.com/gin-gonic/gin"
@@ -115,53 +115,20 @@ func SuccessData(ctx *gin.Context, data interface{}) {
 
 // SuccessAutoData
 // 根据数据自动判断是返回所有数据还是部分数据
-func SuccessAutoData(ctx *gin.Context, req interface{}, data interface{}) {
-	ref := reflect.ValueOf(req)
-	// 判断 ref 是否是 ptr 类型
-	if ref.Kind() == reflect.Ptr {
-		ref = ref.Elem()
-	}
+func SuccessPage[T any](ctx *gin.Context, req *model.Page[T], data interface{}) {
+	res := new(Page)
+	res.Code = OK
+	res.RequestDatetime = ctx.GetString("RQ_DATETIME")
+	res.RequestId = ctx.GetString("RQ_ID")
+	res.ResponseDatetime = time.Now().Format(utils.FormatDateTimeMs)
+	res.Message = CodeMessage[OK]
+	res.Data = data
+	res.Page.PageNum = req.PageNum
+	res.Page.PageSize = req.PageSize
+	res.Page.Total = req.Total
 
-	// 判断 req 是否有 Total 字段
-	// 如果有则将count 赋值给 req.Total
-	if !ref.FieldByName("Total").IsValid() {
-		SuccessData(ctx, data)
-		return
-	}
-
-	num := ref.FieldByName("PageNum").Int()
-	size := ref.FieldByName("PageSize").Int()
-
-	paging := false
-	if num > 0 {
-		paging = true
-	}
-
-	Total := ref.FieldByName("Total").Int()
-	if paging {
-		ctx.Set("RQ_PAGE_TOTAL", Total)
-		ctx.Set("RQ_PAGE_NUM", num)
-		ctx.Set("RQ_PAGE_SIZE", size)
-
-		dataRef := reflect.ValueOf(data)
-		if dataRef.Kind() == reflect.Ptr {
-			dataRef = dataRef.Elem()
-		}
-
-		// 判断是否是切片，如果是切片则获取切片的对应数据
-		if dataRef.Kind() == reflect.Slice {
-			dataLen := dataRef.Len()
-			// 获取数据起点和终点
-			begin, end := utils.SlicePage(int(num), int(size), int(dataLen))
-			// 判断传入的切片长度，如果传入的长度和 size相等，则不需要再重新切
-			if dataLen > int(size) {
-				data = dataRef.Slice(begin, end).Interface()
-			}
-		}
-		SuccessPage(ctx, data)
-		return
-	}
-	SuccessData(ctx, data)
+	ctx.Set("res", res)
+	ctx.JSON(http.StatusOK, res)
 }
 
 // Success
@@ -207,21 +174,21 @@ func SuccessByMsgf(ctx *gin.Context, fmtStr string, args ...any) {
 
 // SuccessPage
 // 返回成功，包含分页之后的数据
-func SuccessPage(ctx *gin.Context, data interface{}) {
-	res := new(Page)
-	res.Code = OK
-	res.RequestDatetime = ctx.GetString("RQ_DATETIME")
-	res.RequestId = ctx.GetString("RQ_ID")
-	res.ResponseDatetime = time.Now().Format(utils.FormatDateTimeMs)
-	res.Message = CodeMessage[OK]
-	res.Data = data
-	res.Page.PageNum = ctx.GetInt64("RQ_PAGE_NUM")
-	res.Page.PageSize = ctx.GetInt64("RQ_PAGE_SIZE")
-	res.Page.Total = ctx.GetInt64("RQ_PAGE_TOTAL")
+// func SuccessPage(ctx *gin.Context, data interface{}) {
+// 	res := new(Page)
+// 	res.Code = OK
+// 	res.RequestDatetime = ctx.GetString("RQ_DATETIME")
+// 	res.RequestId = ctx.GetString("RQ_ID")
+// 	res.ResponseDatetime = time.Now().Format(utils.FormatDateTimeMs)
+// 	res.Message = CodeMessage[OK]
+// 	res.Data = data
+// 	res.Page.PageNum = ctx.GetInt64("RQ_PAGE_NUM")
+// 	res.Page.PageSize = ctx.GetInt64("RQ_PAGE_SIZE")
+// 	res.Page.Total = ctx.GetInt64("RQ_PAGE_TOTAL")
 
-	ctx.Set("res", res)
-	ctx.JSON(http.StatusOK, res)
-}
+// 	ctx.Set("res", res)
+// 	ctx.JSON(http.StatusOK, res)
+// }
 
 // Fail
 // 返回失败

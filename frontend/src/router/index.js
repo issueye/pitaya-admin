@@ -8,6 +8,8 @@ import Dashboard from '@/views/dashboard/index.vue';
 
 import ResourceManagement from '@/views/page_mana/resource_management/index.vue';
 
+import DevelopTool from '@/views/develop_tool/index.vue';
+
 import { createWebHashHistory } from 'vue-router';
 
 const routes = [
@@ -36,6 +38,17 @@ const routes = [
                         component: ResourceManagement,
                     }
                 ],
+            },
+            {
+                path: 'develop',
+                name: 'Develop',
+                children: [
+                    {
+                        path: 'develop_tool',
+                        name: 'DevelopTool',
+                        component: DevelopTool,
+                    }
+                ]
             },
             {
                 path: 'system',

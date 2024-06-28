@@ -19,7 +19,6 @@ type StatusMenu struct {
 type QueryMenu struct {
 	Condition string `json:"condition" form:"condition"`    // 条件
 	Level     int    `json:"level" form:"level,default=-1"` // 等级
-	model.Page
 }
 
 type ResTreeMenus struct {

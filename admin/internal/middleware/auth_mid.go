@@ -130,7 +130,7 @@ func (auth *Auth) Unauthorized(ctx *gin.Context, code int, message string) {
 // LoginResponse
 // 登录成功后的响应
 func (auth *Auth) LoginResponse(ctx *gin.Context, _ int, token string, expires time.Time) {
-	control := controller.New(ctx)
+	control := controller.NewA(ctx)
 
 	jt := new(JwtToken)
 	jt.Token = strings.Join([]string{global.TokenHeadName, token}, " ")
@@ -159,7 +159,7 @@ func (auth *Auth) LoginResponse(ctx *gin.Context, _ int, token string, expires t
 //	@Router			/api/v1/logout [get]
 //	@Security		ApiKeyAuth
 func (auth *Auth) LogoutResponse(ctx *gin.Context, _ int) {
-	control := controller.New(ctx)
+	control := controller.NewA(ctx)
 	global.Log.Info("退出成功")
 	control.Success()
 }
@@ -175,7 +175,7 @@ func (auth *Auth) LogoutResponse(ctx *gin.Context, _ int) {
 //	@Router			/api/v1/refreshToken [get]
 //	@Security		ApiKeyAuth
 func (auth *Auth) RefreshResponse(ctx *gin.Context, _ int, token string, expires time.Time) {
-	control := controller.New(ctx)
+	control := controller.NewA(ctx)
 	jt := new(JwtToken)
 	jt.Token = strings.Join([]string{global.TokenHeadName, token}, " ")
 	jt.Expires = expires.Format(utils.FormatDateTimeMs)

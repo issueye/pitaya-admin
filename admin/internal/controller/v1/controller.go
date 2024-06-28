@@ -19,7 +19,7 @@ import (
 //	@Router			/api/v1/depository [post]
 //	@Security		ApiKeyAuth
 func DepositoryPost(ctx *gin.Context) {
-	c := controller.New(ctx)
+	c := controller.NewA(ctx)
 
 	data, err := io.ReadAll(c.Request.Body)
 	if err != nil {

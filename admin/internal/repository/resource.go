@@ -2,8 +2,6 @@ package repository
 
 import (
 	"mime/multipart"
-
-	"github.com/issueye/pitaya_admin/internal/common/model"
 )
 
 type CreateResource struct {
@@ -24,7 +22,6 @@ type ModifyResource struct {
 // 查询信息
 type QueryResource struct {
 	Condition string `json:"condition" form:"condition"` // 条件
-	model.Page
 }
 
 type UploadData struct {
