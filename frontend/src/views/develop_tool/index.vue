@@ -108,7 +108,7 @@
 
   <BsDialog
     :title="title"
-    :width="800"
+    :width="1000"
     :visible="visible"
     @close="onClose"
     @save="onSave"
@@ -129,6 +129,9 @@
                 placeholder="请输入标题"
                 clearable
               />
+              <el-select>
+                <el-option />
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -165,13 +168,6 @@
             clearable
           />
         </el-form-item>
-        <el-form-item label="资源">
-          <BsUpload
-            :name="getFileName()"
-            @upload="onUpload"
-            @unUpload="unUpload"
-          />
-        </el-form-item>
       </el-form>
     </template>
   </BsDialog>
@@ -186,6 +182,9 @@ import {
   apiResourceModify,
   apiResourceDelete,
 } from "@/apis/page/resource";
+
+import { apiGetAllTable } from '@/apis/develop/index';
+
 import { ElMessage, ElMessageBox } from "element-plus";
 
 const nameTitle = "生成代码";
