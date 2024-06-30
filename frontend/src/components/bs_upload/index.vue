@@ -47,7 +47,7 @@ onMounted(() => {
   dataForm.ext = "";
   showViewer.value = false;
 
-  console.log("props.name", props.name);
+  // console.log("props.name", props.name);
 
   if (props.name) {
     const info = props.name.split(".");

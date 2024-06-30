@@ -4,6 +4,7 @@ import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import path from 'path'
 import Components from 'unplugin-vue-components/vite'
 import Icons from 'unplugin-icons/vite'
+import { lazyImport, VxeResolver } from 'vite-plugin-lazy-import'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -25,6 +26,17 @@ export default defineConfig({
     }),
 
     Components({}),
+
+    lazyImport({
+      resolvers: [
+        VxeResolver({
+          libraryName: 'vxe-table'
+        }),
+        // VxeResolver({
+        //   libraryName: 'vxe-pc-ui',
+        // })
+      ]
+    })
   ],
 
   server: {

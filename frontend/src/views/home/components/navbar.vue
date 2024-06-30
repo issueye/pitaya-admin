@@ -1,21 +1,41 @@
 <template>
   <div class="flex flex-row items-center w-full bg-white shadow">
-    <div v-for="(item, index) in navBar" :key="index" class="flex flex-row h-8 items-center first:ml-1">
-      <el-dropdown :teleported="false" trigger="contextmenu" @command="(commond) => onMenuCommand(commond, item)" ref="itemCtxMenuRef"
-        class="h-full items-center">
-        <div v-if="item.index == activeMenu"
+    <div
+      v-for="(item, index) in navBar"
+      :key="index"
+      class="flex flex-row h-8 items-center first:ml-1"
+    >
+      <el-dropdown
+        :teleported="false"
+        trigger="contextmenu"
+        @command="(commond) => onMenuCommand(commond, item)"
+        ref="itemCtxMenuRef"
+        class="h-full items-center"
+      >
+        <div
+          v-if="item.index == activeMenu"
           class="flex items-center justify-between font-normal text-[#3395FF] h-4/5 w-[100px] pl-2 pr-2 ml-[5px] border border-solid border-[#d9d9d9] rounded-sm hover:border-[#E0EFFF] text-xs"
-          @click="onMenuItemClick(item)">
+          @click="onMenuItemClick(item)"
+        >
           <span>{{ item.title }} </span>
-          <Icon icon="carbon:close-outline" @click.stop="onMenuRemoveClick(item, 0)"
-            v-if="item.index !== dashboard.index" />
+          <Icon
+            icon="carbon:close-outline"
+            @click.stop="onMenuRemoveClick(item, 0)"
+            v-if="item.index !== dashboard.index"
+          />
         </div>
-        <div v-else
+        <div
+          v-else
           class="flex items-center justify-between font-normal text-[#595959] h-4/5 w-[100px] pl-2 pr-2 ml-[5px] border border-solid border-[#d9d9d9] rounded-sm hover:border-[#E0EFFF] text-xs group"
-          @click="onMenuItemClick(item)">
+          @click="onMenuItemClick(item)"
+        >
           {{ item.title }}
-          <Icon icon="carbon:close-outline" @click.stop="onMenuRemoveClick(item, 1)"
-            v-if="item.index !== dashboard.index" class="hidden group-hover:block group-hover: text-[#3395FF]" />
+          <Icon
+            icon="carbon:close-outline"
+            @click.stop="onMenuRemoveClick(item, 1)"
+            v-if="item.index !== dashboard.index"
+            class="hidden group-hover:block group-hover: text-[#3395FF]"
+          />
         </div>
         <template #dropdown>
           <el-dropdown-menu @mouseleave.native="onMouseleave(index)">
@@ -47,11 +67,11 @@ const onMenuItemClick = (item) => {
 const itemCtxMenuRef = ref([]);
 
 const onMouseleave = (index) => {
-  let ctxRef = itemCtxMenuRef.value[index] 
-  console.log('onMouseleave', ctxRef);
+  let ctxRef = itemCtxMenuRef.value[index];
+  console.log("onMouseleave", ctxRef);
 
   itemCtxMenuRef.value[index].handleClose();
-}
+};
 
 const onMenuCommand = (commond, item) => {
   switch (commond) {
@@ -69,10 +89,11 @@ const onMenuCommand = (commond, item) => {
   }
 };
 
+const onMenuRemoveClick = (item, type) => {};
+
 const onMenuClick = (item) => {
   router.push({
     path: item.path,
   });
-}
-
+};
 </script>

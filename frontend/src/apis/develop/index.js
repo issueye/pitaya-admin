@@ -10,3 +10,15 @@ export const apiGetAllTable = () => {
         method: 'get',
     })
 }
+
+
+/**
+ * 获取所有表
+ * @returns 
+ */
+export const apiGetTableInfo = (name) => {
+    return request({
+        url: `api/v1/develop/getTableColumns/${name}`,
+        method: 'get',
+    })
+}

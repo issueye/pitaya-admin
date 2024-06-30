@@ -111,70 +111,34 @@
     :width="1000"
     :visible="visible"
     @close="onClose"
-    @save="onSave"
+    @open="onOpen"
     v-if="visible"
+    :showFooter="false"
   >
     <template #body>
-      <el-form
-        label-width="auto"
-        :model="dataForm"
-        :rules="rules"
-        ref="dataFormRef"
-      >
-        <el-row :gutter="20">
-          <el-col>
-            <el-form-item label="标题" prop="title">
-              <el-input
-                v-model="dataForm.title"
-                placeholder="请输入标题"
-                clearable
-              />
-              <el-select>
-                <el-option />
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-
-        <el-row :gutter="20">
-          <el-col :span="16">
-            <el-form-item label="名称" prop="fileName">
-              <el-input
-                v-model="dataForm.fileName"
-                placeholder="请输入名称"
-                clearable
-                :disabled="true"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="类型" prop="ext">
-              <el-input
-                v-model="dataForm.ext"
-                placeholder="请输入文件类型"
-                clearable
-                :disabled="true"
-              />
-            </el-form-item>
-          </el-col>
-        </el-row>
-
-        <el-form-item label="备注">
-          <el-input
-            v-model="dataForm.mark"
-            placeholder="请输入备注"
-            type="textarea"
-            :row="2"
-            clearable
-          />
-        </el-form-item>
-      </el-form>
+      <el-steps :active="active" finish-status="success" simple>
+        <el-step title="编辑模型" />
+        <el-step title="预览代码" />
+      </el-steps>
+      <div class="w-full h-[550px] mt-10">
+        <EditInfo v-if="active === 0" />
+        <CodeInfo v-if="active === 1" />
+        <ResultInfo v-if="active === 2" />
+      </div>
+      <div class="flex justify-end" v-if="active < 2">
+        <el-button @click="onPrevClick">上一步</el-button>
+        <el-button @click="onNextClick">下一步</el-button>
+      </div>
     </template>
   </BsDialog>
 </template>
   
-  <script setup>
+<script setup>
 import { onMounted, reactive, ref } from "vue";
+
+import EditInfo from "./components/edit_info.vue";
+import CodeInfo from "./components/code_info.vue";
+import ResultInfo from "./components/result_info.vue";
 
 import {
   apiResourceList,
@@ -183,43 +147,27 @@ import {
   apiResourceDelete,
 } from "@/apis/page/resource";
 
-import { apiGetAllTable } from '@/apis/develop/index';
+import { apiGetAllTable, apiGetTableInfo } from "@/apis/develop/index";
 
 import { ElMessage, ElMessageBox } from "element-plus";
+
+import { useDevelopStore } from "@/store/develop";
+import { storeToRefs } from "pinia";
+
+const developStore = useDevelopStore();
+
+const { active, visible } = storeToRefs(developStore);
 
 const nameTitle = "生成代码";
 // 标题
 const title = ref("");
-// 显示弹窗
-const visible = ref(false);
 // 操作类型
 const operationType = ref(0);
 // 数据表单
 const dataFormRef = ref();
-// 表单验证规则
-const rules = reactive({
-  title: [
-    {
-      required: true,
-      message: "请输入标题",
-      trigger: "blur",
-    },
-  ],
-  fileName: [
-    {
-      required: true,
-      message: "请输入文件名称",
-      trigger: "blur",
-    },
-  ],
-  ext: [
-    {
-      required: true,
-      message: "请输入文件类型",
-      trigger: "blur",
-    },
-  ],
-});
+
+const tableRef = ref();
+
 // 分页
 const pageNum = ref(1);
 const pageSize = ref(10);
@@ -234,34 +182,103 @@ const form = reactive({
 const dataForm = reactive({
   id: "",
   title: "",
+  tableName: "",
   fileName: "",
   path: "",
   ext: "",
   mark: "",
 });
 
+const onPrevClick = () => {
+  if (active.value > 0) {
+    active.value--;
+  }
+};
+
+const onNextClick = () => {
+  if (active.value < 2) {
+    active.value++;
+  }
+};
+
 //  表格数据
 const tableData = ref([]);
+
+const tables = ref([]);
+
+const columnData = ref([]);
 
 // 组件加载完成
 onMounted(() => {
   getData();
 });
 
-const getFileName = () => {
-  return dataForm.fileName + dataForm.ext;
+/**
+ * 判断当前行是否处于编辑状态
+ * @param {*} row
+ */
+const isActiveStatus = (row) => {
+  const $table = tableRef.value;
+  if ($table) {
+    return $table.isEditByRow(row);
+  }
 };
 
-const onUpload = async (data) => {
-  console.log("data", data);
-
-  dataForm.fileName = data.name;
-  dataForm.ext = data.ext;
+/**
+ * 保存当前编辑行内容
+ * @param {*} row
+ */
+const onColumnSaveClick = (row) => {
+  const $table = tableRef.value;
+  if ($table) {
+    $table.clearEdit().then(() => {
+      ElMessage.success("保存成功");
+    });
+  }
 };
 
-const unUpload = () => {
-  dataForm.fileName = "";
-  dataForm.ext = "";
+/**
+ * 编辑当前行
+ * @param {*} row
+ */
+const onColumnEditClick = (row) => {
+  const $table = tableRef.value;
+  console.log("$table", $table);
+  if ($table) {
+    $table.setEditRow(row);
+  }
+};
+
+/**
+ * 取消编辑
+ * @param {*} row
+ */
+const onColumnCancelClick = (row) => {
+  const $table = tableRef.value;
+  if ($table) {
+    $table.clearEdit().then(() => {
+      // 还原行数据
+      $table.revertData(row);
+    });
+  }
+};
+
+const getTables = async () => {
+  let res = await apiGetAllTable();
+  if (res.code === 200) {
+    tables.value = res.data;
+  }
+};
+
+const getTableColumns = async (name) => {
+  let res = await apiGetTableInfo(name);
+  if (res.code === 200) {
+    columnData.value = res.data.fields;
+  }
+};
+
+const onChangeTable = (val) => {
+  getTableColumns(val);
 };
 
 // 获取数据
@@ -326,13 +343,6 @@ const onQryClick = () => {
   getData();
 };
 
-const onEditClick = (value) => {
-  operationType.value = 1;
-  title.value = `[编辑]${nameTitle}`;
-  setForm(value);
-  visible.value = true;
-};
-
 const onDeleteClick = (value) => {
   ElMessageBox.confirm("请确认是否要删除数据？", "警告", {
     confirmButtonText: "确定",
@@ -354,41 +364,9 @@ const onDeleteClick = (value) => {
     });
 };
 
-const onSave = () => {
-  if (!dataFormRef.value) return;
-  dataFormRef.value.validate(async (valid) => {
-    if (valid) {
-      switch (operationType.value) {
-        case 0: {
-          const res = await apiResourceCreate(dataForm);
-          if (res.code !== 200) {
-            ElMessage.error(res.message);
-            return;
-          }
-
-          ElMessage.success(res.message);
-          visible.value = false;
-          getData();
-          break;
-        }
-
-        case 1: {
-          const res = await apiResourceModify(dataForm);
-          if (res.code !== 200) {
-            ElMessage.error(res.message);
-            return;
-          }
-
-          ElMessage.success(res.message);
-          visible.value = false;
-          getData();
-          break;
-        }
-      }
-    } else {
-      console.log("表单验证失败");
-    }
-  });
+const onOpen = () => {
+  developStore.resetData();
+  getTables();
 };
 
 const onClose = () => {
@@ -399,7 +377,7 @@ const onClose = () => {
 };
 </script>
   
-  <style lang="scss" scoped>
+<style lang="scss" scoped>
 .table-box {
   height: calc(100% - 45px);
 }

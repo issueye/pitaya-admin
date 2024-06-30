@@ -6,7 +6,7 @@
     :width="props.width"
     :before-close="onClose"
     :close-on-click-modal="false"
-    @open="onOpen"
+    @opened="onOpen"
   >
     <div class="p-[20px]">
       <slot name="body"> </slot>
@@ -44,6 +44,7 @@ const onClose = () => {
 };
 
 const onOpen = () => {
+  console.log("dialog", "open event");
   emits("open");
 };
 
